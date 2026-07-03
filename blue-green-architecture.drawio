@@ -1,0 +1,98 @@
+<mxfile host="app.diagrams.net" modified="2026-07-03T00:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="Blue-Green Architecture" id="bg-arch-1">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Users -->
+        <mxCell id="liveuser" value="Live Users" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uattester" value="UAT Tester" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Routes -->
+        <mxCell id="liveroute" value="OpenShift Route: Live\n(selector -&gt; active Service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="240" y="60" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uatroute" value="OpenShift Route: UAT\n(direct to Green Service)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="240" y="180" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Blue Stack -->
+        <mxCell id="bluegroup" value="Blue Stack (Live)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="30" width="260" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="bluesvc" value="Blue Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="545" y="60" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="blueprod" value="Blue REST Pod(s)\n(Producer)\nOUTPUT_TOPIC=orders-blue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="545" y="120" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="blueconsumer" value="Blue Consumer Pod(s)\nGROUP=orders-blue-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="545" y="200" width="210" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Green Stack -->
+        <mxCell id="greengroup" value="Green Stack (UAT)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="320" width="260" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="greensvc" value="Green Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="545" y="350" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="greenprod" value="Green REST Pod(s)\n(Producer)\nOUTPUT_TOPIC=orders-green" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="545" y="410" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="greenconsumer" value="Green Consumer Pod(s)\nGROUP=orders-green-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="545" y="490" width="210" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Kafka -->
+        <mxCell id="kafkagroup" value="Kafka Cluster" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="860" y="140" width="220" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="topicblue" value="Topic: orders-blue" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;boundedLbl=1;" vertex="1" parent="1">
+          <mxGeometry x="890" y="180" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="topicgreen" value="Topic: orders-green" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;boundedLbl=1;" vertex="1" parent="1">
+          <mxGeometry x="890" y="300" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Shared DB -->
+        <mxCell id="db" value="Shared Database" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;boundedLbl=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="330" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Decision / Cutover -->
+        <mxCell id="decision" value="UAT Result?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="60" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cutover" value="Pass: Switch Live Route\nselector Blue -&gt; Green\n(zero downtime)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="30" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="noimpact" value="Fail: No impact to\nLive Users; Blue continues;\nfix and redeploy Green" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="110" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="liveuser" target="liveroute"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="uattester" target="uatroute"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="liveroute" target="bluesvc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="uatroute" target="greensvc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="bluesvc" target="blueprod"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="greensvc" target="greenprod"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="blueprod" target="topicblue"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="greenprod" target="topicgreen"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="topicblue" target="blueconsumer"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="topicgreen" target="greenconsumer"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="blueconsumer" target="db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="greenconsumer" target="db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" edge="1" parent="1" source="greenconsumer" target="decision"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e14" value="Pass" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="decision" target="cutover"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e15" value="Fail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="decision" target="noimpact"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
